@@ -22,17 +22,41 @@ android {
           vectorDrawables {
                useSupportLibrary = true
           }
+          setProperty("archivesBaseName", "VendingMachine-V($versionName)-VC($versionCode)")
+
      }
      
      buildTypes {
           release {
+               isMinifyEnabled = true
+               isShrinkResources = true
+               proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+               manifestPlaceholders["crashlyticsCollectionEnabled"] = true
+
+          }
+          debug {
                isMinifyEnabled = false
-               proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
-                            )
+               isShrinkResources = false
+               proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+               manifestPlaceholders["crashlyticsCollectionEnabled"] = false
+
           }
      }
+     flavorDimensions += "environment"
+     productFlavors {
+          create("live") {
+               dimension = "environment"
+               buildConfigField("String", "BASE_URL", "\"https://abc/\"")
+               addManifestPlaceholders(mutableMapOf("appLabel" to "QahwaPoint"))
+          }
+
+          create("staging") {
+               dimension = "environment"
+               buildConfigField("String", "BASE_URL", "\"https://abc/\"")
+               addManifestPlaceholders(mutableMapOf("appLabel" to "Dev VendingMachine"))
+          }
+     }
+
      compileOptions {
           sourceCompatibility = JavaVersion.VERSION_1_8
           targetCompatibility = JavaVersion.VERSION_1_8
@@ -41,8 +65,10 @@ android {
           jvmTarget = "1.8"
      }
      buildFeatures {
+          buildConfig = true
           compose = true
      }
+
      composeOptions {
           kotlinCompilerExtensionVersion = "1.5.1"
      }
@@ -133,4 +159,15 @@ dependencies {
      val navVersion = "2.3.5"
      implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
      implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
+     //serial port detection
+     implementation("com.licheedev:android-serialport:2.1.3")
+     implementation("io.socket:socket.io-client:2.0.0"){
+     }
+     //Retrofit
+     val retrofitVersion = "2.9.0"
+     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
+     implementation("com.squareup.retrofit2:converter-scalars:2.1.0")
 }

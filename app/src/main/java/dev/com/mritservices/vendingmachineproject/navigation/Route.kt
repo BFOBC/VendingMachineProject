@@ -17,5 +17,7 @@ sealed class Route(val value: String) {
      object PrinterScreen : Route("PrinterScreen")
      object RedeemItemScreen : Route("RedeemItemScreen")
      object CheckBalanceScreen : Route("CheckBalanceScreen")
+     object VerificationFailedScreen : Route("VerificationFailedScreen")
+     object VerificationSuccessScreen : Route("VerificationSuccessScreen")
  
 }

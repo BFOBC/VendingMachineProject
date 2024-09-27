@@ -41,14 +41,26 @@ fun WelcomeScreen(
 
             // Buttons for Redeem and Check Balance
             Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(vertical = 16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Button(onClick = onRedeemClick) {
+                Button(
+                    onClick = onRedeemClick,
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight(0.2f) // Adjust the height as needed
+                ) {
                     Text(text = "Redeem")
                 }
 
-                Button(onClick = onCheckBalanceClick) {
+                Button(
+                    onClick = onCheckBalanceClick,
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight(0.2f) // Same height for Check Balance button
+                ) {
                     Text(text = "Check Balance")
                 }
             }
@@ -61,14 +73,4 @@ fun WelcomeScreen(
             )
         }
     }
-}
-
-@Composable
-@Preview(showBackground = true, showSystemUi = true)
-fun WelcomeScreenPreview() {
-    WelcomeScreen(
-        brandName = "ABC",
-        onRedeemClick = {}, // Provide empty lambdas for preview
-        onCheckBalanceClick = {}
-    )
 }
